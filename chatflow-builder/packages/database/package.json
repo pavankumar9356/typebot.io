@@ -1,0 +1,18 @@
+{
+  "name": "@chatflow/database",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "db:generate": "prisma generate --schema=./schema.prisma",
+    "db:push": "prisma db push --schema=./schema.prisma",
+    "db:studio": "prisma studio --schema=./schema.prisma"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.0.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

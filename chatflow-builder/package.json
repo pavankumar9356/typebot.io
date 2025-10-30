@@ -1,0 +1,27 @@
+{
+  "name": "chatflow-builder",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "db:generate": "cd packages/database && pnpm db:generate",
+    "db:push": "cd packages/database && pnpm db:push",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down"
+  },
+  "devDependencies": {
+    "@types/nprogress": "^0.2.3",
+    "dotenv-cli": "^7.3.0",
+    "prettier": "^3.0.0",
+    "turbo": "^1.10.12",
+    "typescript": "^5.0.0"
+  },
+  "packageManager": "pnpm@8.6.12",
+  "dependencies": {
+    "nprogress": "^0.2.0",
+    "@chatflow/prisma": "workspace:*",
+    "@chatflow/database": "workspace:*"
+  }
+}
