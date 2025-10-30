@@ -1,0 +1,19 @@
+{
+  "enabled": true,
+  "name": "Fix Imports",
+  "description": "Automatically fixes and organizes import statements in TypeScript and JavaScript files when they are modified",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.js",
+      "**/*.jsx"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Please analyze the modified files and fix any import issues. This includes:\n1. Removing unused imports\n2. Adding missing imports for undefined variables/types\n3. Organizing imports (external libraries first, then internal modules)\n4. Fixing incorrect import paths\n5. Converting between default and named imports where appropriate\n6. Ensuring proper TypeScript type imports using 'import type' when needed\n\nFocus on the files that were just changed and make sure all imports are correct and optimized."
+  }
+}

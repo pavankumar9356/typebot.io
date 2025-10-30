@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  chatbots Chatbot[]
+}
+
+model Chatbot {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  blocks        Block[]
+  conversations Conversation[]
+}
+
+model Block {
+  id       String    @id @default(cuid())
+  type     BlockType
+  position Json // {x: number, y: number}
+  content  Json // Block-specific content
+  order    Int
+
+  chatbotId String
+  chatbot   Chatbot @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+
+  sourceConnections Connection[] @relation("SourceBlock")
+  targetConnections Connection[] @relation("TargetBlock")
+}
+
+model Connection {
+  id String @id @default(cuid())
+
+  sourceBlockId String
+  sourceBlock   Block @relation("SourceBlock", fields: [sourceBlockId], references: [id], onDelete: Cascade)
+
+  targetBlockId String
+  targetBlock   Block @relation("TargetBlock", fields: [targetBlockId], references: [id], onDelete: Cascade)
+}
+
+model Conversation {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  chatbotId String
+  chatbot   Chatbot @relation(fields: [chatbotId], references: [id], onDelete: Cascade)
+
+  messages Message[]
+}
+
+model Message {
+  id        String      @id @default(cuid())
+  content   String
+  type      MessageType
+  createdAt DateTime    @default(now())
+
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+}
+
+enum BlockType {
+  TEXT
+  INPUT
+  BUTTON
+  CONDITION
+  WEBHOOK
+}
+
+enum MessageType {
+  BOT
+  USER
+}
